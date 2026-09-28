@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>RNisarg Foundation</title>
   
   <!-- Sora Font from Google Fonts -->
@@ -41,31 +41,34 @@
       padding: 0;
     }
 
+    /* Full wrapper for Wix Embed: adapts cleanly to 100vh or Wix container height */
     .wix-embed-wrapper {
       width: 100%;
       min-height: 100vh;
+      min-height: -webkit-fill-available;
       display: flex;
       align-items: center;
       justify-content: center;
       background-color: var(--bg-color);
-      padding: 2.5rem 6%;
-      overflow: hidden;
+      padding: clamp(1.5rem, 5vw, 4rem) clamp(1.2rem, 6vw, 4.5rem);
       position: relative;
     }
 
+    /* Grid container maintaining proportion on ultra-wide & small screens */
     .hero-container {
       width: 100%;
-      max-width: 1220px;
-      display: flex;
+      max-width: 1280px;
+      display: grid;
+      grid-template-columns: minmax(320px, 1.15fr) minmax(280px, 0.95fr);
       align-items: center;
       justify-content: space-between;
-      gap: 3rem;
+      gap: clamp(1.5rem, 4vw, 4rem);
     }
 
     /* Left Text Content */
     .text-content {
-      flex: 1;
-      max-width: 530px;
+      width: 100%;
+      max-width: 580px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -78,33 +81,35 @@
       align-items: center;
       background-color: var(--pill-bg);
       color: #ffffff;
-      font-size: 0.76rem;
+      font-size: clamp(0.7rem, 0.9vw, 0.78rem);
       font-weight: 500;
       padding: 0.4rem 1.05rem;
       border-radius: 999px;
       letter-spacing: 0.02em;
-      margin-bottom: 1.6rem;
+      margin-bottom: clamp(1.2rem, 2.5vw, 1.7rem);
+      white-space: nowrap;
     }
 
-    /* Heading 1 - Sora Bold */
+    /* Heading 1 - Sora Bold with fluid typography */
     h1.hero-title {
       font-family: 'Sora', sans-serif;
-      font-size: clamp(3rem, 5.2vw, 4.75rem);
+      font-size: clamp(2.4rem, 5.2vw, 4.8rem);
       font-weight: 700;
       line-height: 1.06;
       letter-spacing: -0.025em;
       color: #ffffff;
-      margin-bottom: 1.6rem;
+      margin-bottom: clamp(1.2rem, 2.5vw, 1.7rem);
+      word-break: break-word;
     }
 
     /* Heading 3 - Sora Regular */
     h3.hero-tagline {
       font-family: 'Sora', sans-serif;
-      font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+      font-size: clamp(0.92rem, 1.25vw, 1.1rem);
       font-weight: 400;
-      line-height: 1.5;
+      line-height: 1.52;
       color: var(--text-sub);
-      max-width: 470px;
+      max-width: 500px;
     }
 
     h3.hero-tagline .highlight {
@@ -112,17 +117,18 @@
       font-weight: 600;
     }
 
-    /* Right 3D Earth / Fallback Container */
+    /* Right 3D Earth / Fallback Container: dynamic aspect-ratio box */
     .globe-container {
-      flex: 1;
+      width: 100%;
+      max-width: min(560px, 45vw);
+      aspect-ratio: 1 / 1;
+      min-height: 280px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      width: 100%;
-      max-width: 550px;
-      height: 520px;
-      touch-action: none;
+      margin: 0 auto;
+      touch-action: pan-y; /* Allows vertical mobile page scrolling without getting trapped */
     }
 
     /* Instant Fallback Image */
@@ -170,183 +176,48 @@
     }
 
     /* ========================================================
-       LIVE 3D TUNING SETTINGS PANEL
+       RESPONSIVE BREAKPOINTS (BIG & SMALL SCREENS)
        ======================================================== */
-    .tuning-panel-toggle {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      background: #1e3a5f;
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 999px;
-      padding: 10px 18px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      transition: all 0.2s ease;
+    /* Ultra-wide screens (1600px+) */
+    @media (min-width: 1600px) {
+      .hero-container {
+        max-width: 1400px;
+      }
+      .globe-container {
+        max-width: 620px;
+      }
     }
 
-    .tuning-panel-toggle:hover {
-      background: #274b7a;
-      transform: translateY(-2px);
+    /* Mid-size / Laptops / Tablets Landscape (961px - 1180px) */
+    @media (max-width: 1180px) {
+      .hero-container {
+        gap: 2rem;
+      }
+      .globe-container {
+        max-width: min(480px, 42vw);
+      }
     }
 
-    .tuning-panel {
-      position: fixed;
-      bottom: 70px;
-      right: 20px;
-      width: 320px;
-      max-height: 80vh;
-      overflow-y: auto;
-      background: rgba(10, 35, 65, 0.95);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 14px;
-      padding: 16px;
-      z-index: 9998;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-      font-size: 0.78rem;
-    }
-
-    .tuning-panel.active {
-      display: flex;
-    }
-
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      padding-bottom: 8px;
-    }
-
-    .panel-header h4 {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #ffffff;
-    }
-
-    .panel-close-btn {
-      background: none;
-      border: none;
-      color: #86b8e3;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    .control-row {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .control-label {
-      display: flex;
-      justify-content: space-between;
-      color: #c0daf1;
-      font-weight: 500;
-    }
-
-    .control-value {
-      color: #ffffff;
-      font-weight: 700;
-      font-family: monospace;
-    }
-
-    .control-row input[type="range"] {
-      width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.18);
-      border-radius: 4px;
-      outline: none;
-      cursor: pointer;
-      accent-color: #38bdf8;
-    }
-
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: #c0daf1;
-      padding: 4px 0;
-    }
-
-    .toggle-row input[type="checkbox"] {
-      cursor: pointer;
-      width: 16px;
-      height: 16px;
-      accent-color: #38bdf8;
-    }
-
-    .panel-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      padding-top: 10px;
-    }
-
-    .btn-copy-settings {
-      background: #38bdf8;
-      color: #082d54;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-weight: 700;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: background 0.2s ease;
-      text-align: center;
-    }
-
-    .btn-copy-settings:hover {
-      background: #7dd3fc;
-    }
-
-    .btn-reset-settings {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-weight: 600;
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .btn-reset-settings:hover {
-      background: rgba(255, 255, 255, 0.18);
-    }
-
-    .copy-notification {
-      color: #34d399;
-      font-size: 0.75rem;
-      text-align: center;
-      display: none;
-      font-weight: 600;
-    }
-
-    /* Responsive */
+    /* Tablets / Small Laptops (769px - 960px) */
     @media (max-width: 960px) {
+      .hero-container {
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 1.8rem;
+      }
+      .globe-container {
+        max-width: min(420px, 45vw);
+      }
+    }
+
+    /* Mobile / Tablets Portrait (<= 768px): clean stack */
+    @media (max-width: 768px) {
       .wix-embed-wrapper {
         min-height: auto;
-        padding: 3rem 1.5rem;
+        padding: 3rem 1.5rem 2.5rem;
       }
 
       .hero-container {
-        flex-direction: column-reverse;
+        grid-template-columns: 1fr;
         text-align: center;
         gap: 2rem;
       }
@@ -354,50 +225,50 @@
       .text-content {
         align-items: center;
         max-width: 100%;
+        margin: 0 auto;
       }
 
       h1.hero-title {
-        font-size: clamp(2.4rem, 7.5vw, 3.5rem);
-        margin-bottom: 1.2rem;
-      }
-
-      h3.hero-tagline {
-        max-width: 100%;
-      }
-
-      .globe-container {
-        height: 380px;
-        max-width: 380px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .wix-embed-wrapper {
-        padding: 2.2rem 1.2rem;
-      }
-
-      .globe-container {
-        height: 290px;
-        max-width: 290px;
-      }
-
-      h1.hero-title {
-        font-size: 2.3rem;
-      }
-
-      .pill-badge {
-        font-size: 0.7rem;
-        padding: 0.35rem 0.85rem;
+        font-size: clamp(2.3rem, 8vw, 3.4rem);
         margin-bottom: 1.1rem;
       }
 
       h3.hero-tagline {
-        font-size: 0.88rem;
+        max-width: 90%;
+        margin: 0 auto;
       }
 
-      .tuning-panel {
-        width: calc(100vw - 40px);
-        right: 20px;
+      .globe-container {
+        max-width: min(360px, 78vw);
+        min-height: 260px;
+        order: 1;
+      }
+    }
+
+    /* Small Mobile Phones (<= 420px) */
+    @media (max-width: 420px) {
+      .wix-embed-wrapper {
+        padding: 2.2rem 1rem 2rem;
+      }
+
+      h1.hero-title {
+        font-size: clamp(2.1rem, 9.5vw, 2.6rem);
+      }
+
+      .pill-badge {
+        font-size: 0.68rem;
+        padding: 0.35rem 0.85rem;
+        margin-bottom: 1rem;
+      }
+
+      h3.hero-tagline {
+        font-size: 0.88rem;
+        max-width: 100%;
+      }
+
+      .globe-container {
+        max-width: min(290px, 84vw);
+        min-height: 240px;
       }
     }
   </style>
@@ -438,141 +309,24 @@
     </div>
   </div>
 
-  <!-- FLOATING SETTINGS CONTROL PANEL -->
-  <button class="tuning-panel-toggle" id="btn-toggle-panel" title="Adjust 3D Globe Settings">
-    ⚙️ 3D Settings Panel
-  </button>
-
-  <div class="tuning-panel" id="tuning-panel">
-    <div class="panel-header">
-      <h4>⚙️ 3D Model Settings</h4>
-      <button class="panel-close-btn" id="btn-close-panel">&times;</button>
-    </div>
-
-    <!-- Scale -->
-    <div class="control-row">
-      <div class="control-label">
-        <span>Model Scale / Size</span>
-        <span class="control-value" id="val-scale">1.15</span>
-      </div>
-      <input type="range" id="input-scale" min="0.5" max="3.0" step="0.05" value="1.15">
-    </div>
-
-    <!-- Rotation Y (Longitude) -->
-    <div class="control-row">
-      <div class="control-label">
-        <span>Initial Angle Y (Longitude)</span>
-        <span class="control-value" id="val-rot-y">1.46</span>
-      </div>
-      <input type="range" id="input-rot-y" min="-3.14" max="3.14" step="0.02" value="1.46">
-    </div>
-
-    <!-- Rotation X (Tilt) -->
-    <div class="control-row">
-      <div class="control-label">
-        <span>Tilt X (Latitude)</span>
-        <span class="control-value" id="val-rot-x">0.22</span>
-      </div>
-      <input type="range" id="input-rot-x" min="-1.5" max="1.5" step="0.02" value="0.22">
-    </div>
-
-    <!-- Camera Distance -->
-    <div class="control-row">
-      <div class="control-label">
-        <span>Camera Zoom (Distance)</span>
-        <span class="control-value" id="val-cam-z">2.85</span>
-      </div>
-      <input type="range" id="input-cam-z" min="1.8" max="4.5" step="0.05" value="2.85">
-    </div>
-
-    <!-- Position Y -->
-    <div class="control-row">
-      <div class="control-label">
-        <span>Position Offset Y</span>
-        <span class="control-value" id="val-pos-y">0.00</span>
-      </div>
-      <input type="range" id="input-pos-y" min="-0.8" max="0.8" step="0.02" value="0">
-    </div>
-
-    <!-- Auto-Spin Speed -->
-    <div class="control-row">
-      <div class="control-label">
-        <span>Auto-Spin Speed</span>
-        <span class="control-value" id="val-spin">0.0022</span>
-      </div>
-      <input type="range" id="input-spin" min="0" max="0.01" step="0.0002" value="0.0022">
-    </div>
-
-    <!-- Ambient Light -->
-    <div class="control-row">
-      <div class="control-label">
-        <span>Ambient Light</span>
-        <span class="control-value" id="val-amb-light">0.70</span>
-      </div>
-      <input type="range" id="input-amb-light" min="0" max="3.0" step="0.05" value="0.70">
-    </div>
-
-    <!-- Sun Light (Directional) -->
-    <div class="control-row">
-      <div class="control-label">
-        <span>Sun Direct Light</span>
-        <span class="control-value" id="val-sun-light">0.90</span>
-      </div>
-      <input type="range" id="input-sun-light" min="0" max="3.5" step="0.05" value="0.90">
-    </div>
-
-    <!-- Auto-Spin Checkbox -->
-    <div class="toggle-row">
-      <span>Enable Auto-Spin</span>
-      <input type="checkbox" id="check-auto-spin" checked>
-    </div>
-
-    <!-- Glow is OFF by default as requested -->
-    <div class="toggle-row">
-      <span>Atmospheric Glow Effect</span>
-      <input type="checkbox" id="check-glow">
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="panel-actions">
-      <button class="btn-copy-settings" id="btn-copy-config">
-        📋 Copy Settings to Clipboard
-      </button>
-      <div class="copy-notification" id="copy-msg">Copied! Paste it to me in chat.</div>
-      <button class="btn-reset-settings" id="btn-reset-config">
-        Reset to Defaults
-      </button>
-    </div>
-  </div>
-
-  <!-- 3D Scene & Live Settings Logic -->
   <script>
     (function() {
       const globeBox = document.getElementById('globe-box');
       const canvas = document.getElementById('earth-canvas');
       if (!globeBox || !canvas) return;
 
-      // Settings state (Finalized by user)
-      const settings = {
+      // Finalized configuration values
+      const CONFIG = {
         scale: 1.15,
-        rotY: 1.46,
-        rotX: 0.22,
-        camZ: 2.85,
-        posY: 0.00,
+        initialRotationY: 1.46,
+        tiltX: 0.22,
+        cameraDistance: 2.85,
+        positionOffsetY: 0,
         spinSpeed: 0.0022,
-        ambLight: 0.7,
+        ambientLight: 0.7,
         sunLight: 0.9,
-        autoSpin: true,
-        enableGlow: false
+        autoSpin: true
       };
-
-      const defaultSettings = Object.assign({}, settings);
-
-      let scene, camera, renderer, globeGroup, modelObj, glowMesh, ambientLight, sunLight;
-      let isDragging = false;
-      let previousMousePosition = { x: 0, y: 0 };
-      let velocityX = 0;
-      let velocityY = 0;
 
       function init3DScene() {
         if (typeof THREE === 'undefined' || typeof THREE.GLTFLoader === 'undefined') {
@@ -580,11 +334,12 @@
           return;
         }
 
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(38, globeBox.clientWidth / globeBox.clientHeight, 0.1, 1000);
-        camera.position.z = settings.camZ;
+        const scene = new THREE.Scene();
+        const initialAspect = (globeBox.clientWidth || 300) / (globeBox.clientHeight || 300);
+        const camera = new THREE.PerspectiveCamera(38, initialAspect, 0.1, 1000);
+        camera.position.z = CONFIG.cameraDistance;
 
-        renderer = new THREE.WebGLRenderer({
+        const renderer = new THREE.WebGLRenderer({
           canvas: canvas,
           antialias: true,
           alpha: true,
@@ -595,80 +350,51 @@
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.15;
 
-        // Globe Group
-        globeGroup = new THREE.Group();
-        globeGroup.rotation.y = settings.rotY;
-        globeGroup.rotation.x = settings.rotX;
-        globeGroup.position.y = settings.posY;
+        const globeGroup = new THREE.Group();
+        globeGroup.rotation.y = CONFIG.initialRotationY;
+        globeGroup.rotation.x = CONFIG.tiltX;
+        globeGroup.position.y = CONFIG.positionOffsetY;
         scene.add(globeGroup);
 
-        // Lighting (Clean, no unnecessary effects)
-        ambientLight = new THREE.AmbientLight(0xffffff, settings.ambLight);
+        // Clean Natural Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, CONFIG.ambientLight);
         scene.add(ambientLight);
 
         const hemiLight = new THREE.HemisphereLight(0xffffff, 0x0D386C, 0.5);
         scene.add(hemiLight);
 
-        sunLight = new THREE.DirectionalLight(0xffffff, settings.sunLight);
+        const sunLight = new THREE.DirectionalLight(0xffffff, CONFIG.sunLight);
         sunLight.position.set(-3.5, 2.8, 3.5);
         scene.add(sunLight);
 
-        // Glow mesh (optional, turned OFF by default)
-        const glowRadius = 0.98;
-        const glowGeo = new THREE.SphereGeometry(glowRadius * 1.09, 48, 48);
-        const glowMat = new THREE.ShaderMaterial({
-          vertexShader: `
-            varying vec3 vNormal;
-            void main() {
-              vNormal = normalize(normalMatrix * normal);
-              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-            }
-          `,
-          fragmentShader: `
-            varying vec3 vNormal;
-            void main() {
-              float intensity = pow(0.68 - dot(vNormal, vec3(0, 0, 1.0)), 2.6);
-              gl_FragColor = vec4(0.38, 0.74, 1.0, 1.0) * intensity * 1.3;
-            }
-          `,
-          blending: THREE.AdditiveBlending,
-          side: THREE.BackSide,
-          transparent: true
-        });
-        glowMesh = new THREE.Mesh(glowGeo, glowMat);
-        glowMesh.visible = settings.enableGlow;
-        scene.add(glowMesh);
-
-        // Load 3D model: assets/3d-element/earth (1).glb
+        let modelObj = null;
         const loader = new THREE.GLTFLoader();
 
         function handleModelLoad(gltf) {
           modelObj = gltf.scene;
 
-          // Auto-center geometry at origin
           const box = new THREE.Box3().setFromObject(modelObj);
           const center = box.getCenter(new THREE.Vector3());
           const size = box.getSize(new THREE.Vector3());
           modelObj.position.sub(center);
 
-          // Apply initial scale
           const maxDim = Math.max(size.x, size.y, size.z);
           if (maxDim > 0) {
-            modelObj.userData.baseScale = 1.0 / maxDim;
-            const currentScale = settings.scale * modelObj.userData.baseScale;
-            modelObj.scale.set(currentScale, currentScale, currentScale);
+            const s = (CONFIG.scale / maxDim);
+            modelObj.scale.set(s, s, s);
           }
 
           globeGroup.add(modelObj);
 
-          // Crossfade from fallback image to 3D canvas
+          // Force responsive bounds check
+          handleResize();
+
           requestAnimationFrame(() => {
             renderer.render(scene, camera);
             globeBox.classList.add('globe-ready');
           });
         }
 
-        // Load with base64 priority (avoids file:/// and Wix CORS issues), fallback to relative path
         if (window.EARTH_GLB_BASE64) {
           loader.load(
             window.EARTH_GLB_BASE64,
@@ -689,21 +415,27 @@
           );
         }
 
-        // Mouse & Touch Orbit Controls
-        function onStart(e) {
+        // ========================================================
+        // RESPONSIVE DRAG & MOBILE TOUCH (NON-BLOCKING SCROLL)
+        // ========================================================
+        let isDragging = false;
+        let isHorizontalSwipe = false;
+        let startX = 0;
+        let startY = 0;
+        let previousPosition = { x: 0, y: 0 };
+        let velocityX = 0;
+        let velocityY = 0;
+
+        // Desktop Mouse Controls
+        canvas.addEventListener('mousedown', function(e) {
           isDragging = true;
-          const x = e.clientX || (e.touches && e.touches[0].clientX);
-          const y = e.clientY || (e.touches && e.touches[0].clientY);
-          previousMousePosition = { x, y };
-        }
+          previousPosition = { x: e.clientX, y: e.clientY };
+        });
 
-        function onMove(e) {
+        window.addEventListener('mousemove', function(e) {
           if (!isDragging) return;
-          const x = e.clientX || (e.touches && e.touches[0].clientX);
-          const y = e.clientY || (e.touches && e.touches[0].clientY);
-
-          const deltaX = x - previousMousePosition.x;
-          const deltaY = y - previousMousePosition.y;
+          const deltaX = e.clientX - previousPosition.x;
+          const deltaY = e.clientY - previousPosition.y;
 
           velocityY = deltaX * 0.005;
           velocityX = deltaY * 0.005;
@@ -711,30 +443,82 @@
           globeGroup.rotation.y += velocityY;
           globeGroup.rotation.x = Math.max(-0.8, Math.min(0.8, globeGroup.rotation.x + velocityX));
 
-          // Update settings panel values live while dragging
-          updateRotationSlidersFromModel();
+          previousPosition = { x: e.clientX, y: e.clientY };
+        });
 
-          previousMousePosition = { x, y };
-        }
-
-        function onEnd() {
+        window.addEventListener('mouseup', function() {
           isDragging = false;
-        }
+        });
 
-        canvas.addEventListener('mousedown', onStart);
-        window.addEventListener('mousemove', onMove);
-        window.addEventListener('mouseup', onEnd);
+        // Mobile Touch Gestures (Allows natural page scrolling up/down)
+        canvas.addEventListener('touchstart', function(e) {
+          if (e.touches.length !== 1) return;
+          isDragging = true;
+          isHorizontalSwipe = false;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          previousPosition = { x: startX, y: startY };
+        }, { passive: true });
 
-        canvas.addEventListener('touchstart', onStart, { passive: true });
-        window.addEventListener('touchmove', onMove, { passive: true });
-        window.addEventListener('touchend', onEnd);
+        window.addEventListener('touchmove', function(e) {
+          if (!isDragging || e.touches.length !== 1) return;
+          const currentX = e.touches[0].clientX;
+          const currentY = e.touches[0].clientY;
+          const diffX = currentX - startX;
+          const diffY = currentY - startY;
 
-        // Resize Observer
+          // Check if swipe is primarily horizontal (globe rotation) or vertical (page scroll)
+          if (!isHorizontalSwipe) {
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 6) {
+              isHorizontalSwipe = true;
+            } else if (Math.abs(diffY) > 8) {
+              // User wants to scroll the page vertically
+              isDragging = false;
+              return;
+            }
+          }
+
+          if (isHorizontalSwipe) {
+            if (e.cancelable) e.preventDefault();
+            const deltaX = currentX - previousPosition.x;
+            const deltaY = currentY - previousPosition.y;
+
+            velocityY = deltaX * 0.005;
+            velocityX = deltaY * 0.005;
+
+            globeGroup.rotation.y += velocityY;
+            globeGroup.rotation.x = Math.max(-0.8, Math.min(0.8, globeGroup.rotation.x + velocityX));
+          }
+
+          previousPosition = { x: currentX, y: currentY };
+        }, { passive: false });
+
+        window.addEventListener('touchend', function() {
+          isDragging = false;
+          isHorizontalSwipe = false;
+        });
+
+        // ========================================================
+        // RESPONSIVE RESIZE OBSERVER (SCREEN & IFRAME ADAPTATION)
+        // ========================================================
         function handleResize() {
-          if (!globeBox) return;
+          if (!globeBox || !renderer || !camera) return;
           const width = globeBox.clientWidth;
           const height = globeBox.clientHeight;
+          if (width === 0 || height === 0) return;
+
           camera.aspect = width / height;
+
+          // Proportional camera distance adjustment for small screens
+          const screenW = window.innerWidth;
+          if (screenW <= 480) {
+            camera.position.z = CONFIG.cameraDistance * 1.06;
+          } else if (screenW <= 768) {
+            camera.position.z = CONFIG.cameraDistance * 1.02;
+          } else {
+            camera.position.z = CONFIG.cameraDistance;
+          }
+
           camera.updateProjectionMatrix();
           renderer.setSize(width, height);
         }
@@ -748,8 +532,8 @@
         function animate() {
           requestAnimationFrame(animate);
 
-          if (!isDragging && settings.autoSpin) {
-            globeGroup.rotation.y += settings.spinSpeed;
+          if (!isDragging && CONFIG.autoSpin) {
+            globeGroup.rotation.y += CONFIG.spinSpeed;
             velocityX *= 0.94;
             velocityY *= 0.94;
             globeGroup.rotation.x = Math.max(-0.8, Math.min(0.8, globeGroup.rotation.x + velocityX));
@@ -762,191 +546,10 @@
         animate();
       }
 
-      // Initialize Settings UI Binding
-      function setupSettingsUI() {
-        const panel = document.getElementById('tuning-panel');
-        const btnToggle = document.getElementById('btn-toggle-panel');
-        const btnClose = document.getElementById('btn-close-panel');
-
-        btnToggle.addEventListener('click', () => panel.classList.toggle('active'));
-        btnClose.addEventListener('click', () => panel.classList.remove('active'));
-
-        // Controls
-        const inputScale = document.getElementById('input-scale');
-        const inputRotY = document.getElementById('input-rot-y');
-        const inputRotX = document.getElementById('input-rot-x');
-        const inputCamZ = document.getElementById('input-cam-z');
-        const inputPosY = document.getElementById('input-pos-y');
-        const inputSpin = document.getElementById('input-spin');
-        const inputAmbLight = document.getElementById('input-amb-light');
-        const inputSunLight = document.getElementById('input-sun-light');
-        const checkAutoSpin = document.getElementById('check-auto-spin');
-        const checkGlow = document.getElementById('check-glow');
-
-        // Scale
-        inputScale.addEventListener('input', function(e) {
-          settings.scale = parseFloat(e.target.value);
-          document.getElementById('val-scale').textContent = settings.scale.toFixed(2);
-          if (modelObj && modelObj.userData.baseScale) {
-            const s = settings.scale * modelObj.userData.baseScale;
-            modelObj.scale.set(s, s, s);
-          }
-        });
-
-        // Rotation Y
-        inputRotY.addEventListener('input', function(e) {
-          settings.rotY = parseFloat(e.target.value);
-          document.getElementById('val-rot-y').textContent = settings.rotY.toFixed(2);
-          if (globeGroup) globeGroup.rotation.y = settings.rotY;
-        });
-
-        // Rotation X
-        inputRotX.addEventListener('input', function(e) {
-          settings.rotX = parseFloat(e.target.value);
-          document.getElementById('val-rot-x').textContent = settings.rotX.toFixed(2);
-          if (globeGroup) globeGroup.rotation.x = settings.rotX;
-        });
-
-        // Camera Z
-        inputCamZ.addEventListener('input', function(e) {
-          settings.camZ = parseFloat(e.target.value);
-          document.getElementById('val-cam-z').textContent = settings.camZ.toFixed(2);
-          if (camera) camera.position.z = settings.camZ;
-        });
-
-        // Position Y
-        inputPosY.addEventListener('input', function(e) {
-          settings.posY = parseFloat(e.target.value);
-          document.getElementById('val-pos-y').textContent = settings.posY.toFixed(2);
-          if (globeGroup) globeGroup.position.y = settings.posY;
-        });
-
-        // Spin Speed
-        inputSpin.addEventListener('input', function(e) {
-          settings.spinSpeed = parseFloat(e.target.value);
-          document.getElementById('val-spin').textContent = settings.spinSpeed.toFixed(4);
-        });
-
-        // Ambient Light
-        inputAmbLight.addEventListener('input', function(e) {
-          settings.ambLight = parseFloat(e.target.value);
-          document.getElementById('val-amb-light').textContent = settings.ambLight.toFixed(2);
-          if (ambientLight) ambientLight.intensity = settings.ambLight;
-        });
-
-        // Sun Light
-        inputSunLight.addEventListener('input', function(e) {
-          settings.sunLight = parseFloat(e.target.value);
-          document.getElementById('val-sun-light').textContent = settings.sunLight.toFixed(2);
-          if (sunLight) sunLight.intensity = settings.sunLight;
-        });
-
-        // Checkboxes
-        checkAutoSpin.addEventListener('change', function(e) {
-          settings.autoSpin = e.target.checked;
-        });
-
-        checkGlow.addEventListener('change', function(e) {
-          settings.enableGlow = e.target.checked;
-          if (glowMesh) glowMesh.visible = settings.enableGlow;
-        });
-
-        // Reset
-        document.getElementById('btn-reset-config').addEventListener('click', function() {
-          Object.assign(settings, defaultSettings);
-          inputScale.value = settings.scale;
-          inputRotY.value = settings.rotY;
-          inputRotX.value = settings.rotX;
-          inputCamZ.value = settings.camZ;
-          inputPosY.value = settings.posY;
-          inputSpin.value = settings.spinSpeed;
-          inputAmbLight.value = settings.ambLight;
-          inputSunLight.value = settings.sunLight;
-          checkAutoSpin.checked = settings.autoSpin;
-          checkGlow.checked = settings.enableGlow;
-
-          document.getElementById('val-scale').textContent = settings.scale.toFixed(2);
-          document.getElementById('val-rot-y').textContent = settings.rotY.toFixed(2);
-          document.getElementById('val-rot-x').textContent = settings.rotX.toFixed(2);
-          document.getElementById('val-cam-z').textContent = settings.camZ.toFixed(2);
-          document.getElementById('val-pos-y').textContent = settings.posY.toFixed(2);
-          document.getElementById('val-spin').textContent = settings.spinSpeed.toFixed(4);
-          document.getElementById('val-amb-light').textContent = settings.ambLight.toFixed(2);
-          document.getElementById('val-sun-light').textContent = settings.sunLight.toFixed(2);
-
-          if (camera) camera.position.z = settings.camZ;
-          if (globeGroup) {
-            globeGroup.rotation.y = settings.rotY;
-            globeGroup.rotation.x = settings.rotX;
-            globeGroup.position.y = settings.posY;
-          }
-          if (modelObj && modelObj.userData.baseScale) {
-            const s = settings.scale * modelObj.userData.baseScale;
-            modelObj.scale.set(s, s, s);
-          }
-          if (ambientLight) ambientLight.intensity = settings.ambLight;
-          if (sunLight) sunLight.intensity = settings.sunLight;
-          if (glowMesh) glowMesh.visible = settings.enableGlow;
-        });
-
-        // Copy Config button
-        document.getElementById('btn-copy-config').addEventListener('click', function() {
-          // Normalize rotation in -PI to PI
-          let normRotY = globeGroup ? ((globeGroup.rotation.y % (Math.PI * 2))) : settings.rotY;
-          if (normRotY > Math.PI) normRotY -= Math.PI * 2;
-          if (normRotY < -Math.PI) normRotY += Math.PI * 2;
-
-          const exportObj = {
-            scale: parseFloat(settings.scale.toFixed(2)),
-            initialRotationY: parseFloat(normRotY.toFixed(2)),
-            tiltX: parseFloat((globeGroup ? globeGroup.rotation.x : settings.rotX).toFixed(2)),
-            cameraDistance: parseFloat(settings.camZ.toFixed(2)),
-            positionOffsetY: parseFloat(settings.posY.toFixed(2)),
-            spinSpeed: parseFloat(settings.spinSpeed.toFixed(4)),
-            ambientLight: parseFloat(settings.ambLight.toFixed(2)),
-            sunLight: parseFloat(settings.sunLight.toFixed(2)),
-            autoSpin: settings.autoSpin,
-            enableGlow: settings.enableGlow
-          };
-
-          const text = JSON.stringify(exportObj, null, 2);
-          navigator.clipboard.writeText(text).then(() => {
-            const msg = document.getElementById('copy-msg');
-            msg.style.display = 'block';
-            setTimeout(() => { msg.style.display = 'none'; }, 3000);
-          }).catch(err => {
-            prompt('Copy these settings:', text);
-          });
-        });
-      }
-
-      function updateRotationSlidersFromModel() {
-        if (!globeGroup) return;
-        const valRotY = document.getElementById('val-rot-y');
-        const valRotX = document.getElementById('val-rot-x');
-        const inputRotY = document.getElementById('input-rot-y');
-        const inputRotX = document.getElementById('input-rot-x');
-        if (valRotY && inputRotY) {
-          let norm = (globeGroup.rotation.y % (Math.PI * 2));
-          if (norm > Math.PI) norm -= Math.PI * 2;
-          if (norm < -Math.PI) norm += Math.PI * 2;
-          valRotY.textContent = norm.toFixed(2);
-          inputRotY.value = norm.toFixed(2);
-        }
-        if (valRotX && inputRotX) {
-          valRotX.textContent = globeGroup.rotation.x.toFixed(2);
-          inputRotX.value = globeGroup.rotation.x.toFixed(2);
-        }
-      }
-
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-          init3DScene();
-          setupSettingsUI();
-        });
+        document.addEventListener('DOMContentLoaded', init3DScene);
       } else {
         init3DScene();
-        setupSettingsUI();
       }
     })();
   </script>
