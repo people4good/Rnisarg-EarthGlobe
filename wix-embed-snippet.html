@@ -1,0 +1,448 @@
+<!-- ========================================================
+  RNISARG FOUNDATION - PRODUCTION WIX EMBED COMPONENT
+  Finalized Settings Applied:
+  - Scale: 1.15
+  - Initial Rotation Y: 1.46
+  - Tilt X: 0.22
+  - Camera Distance: 2.85
+  - Ambient Light: 0.7
+  - Sun Direct Light: 0.9
+  - Auto Spin: true (speed: 0.0022)
+  - Glow: false (No unnecessary glow)
+  - Background: #0D386C
+  - Pill Badge: #567498
+  - Heading 1: Sora Bold
+  - Heading 3: Sora Regular
+======================================================== -->
+
+<div id="rnisarg-wix-root">
+  <!-- Google Font: Sora -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Three.js & GLTFLoader -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <!-- Pre-bundled GLB data for seamless offline & iframe rendering -->
+  <script src="assets/3d-element/earth-glb.js"></script>
+
+  <style>
+    #rnisarg-wix-root {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Sora', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #rnisarg-wix-root *, 
+    #rnisarg-wix-root *::before, 
+    #rnisarg-wix-root *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    .rn-wrapper {
+      width: 100%;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #0D386C;
+      padding: 2.5rem 6%;
+      overflow: hidden;
+    }
+
+    .rn-container {
+      width: 100%;
+      max-width: 1220px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+
+    /* Left Text Content */
+    .rn-text-content {
+      flex: 1;
+      max-width: 530px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      z-index: 2;
+    }
+
+    /* Doctor-Founded Pill Badge */
+    .rn-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      background-color: #567498;
+      color: #ffffff;
+      font-size: 0.76rem;
+      font-weight: 500;
+      padding: 0.4rem 1.05rem;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.6rem;
+    }
+
+    /* Heading 1 - Sora Bold */
+    h1.rn-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(3rem, 5.2vw, 4.75rem);
+      font-weight: 700;
+      line-height: 1.06;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      margin-bottom: 1.6rem;
+    }
+
+    /* Heading 3 - Sora Regular */
+    h3.rn-tagline {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+      font-weight: 400;
+      line-height: 1.5;
+      color: #86b8e3;
+      max-width: 470px;
+    }
+
+    h3.rn-tagline .rn-highlight {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Right 3D Earth / Fallback Container */
+    .rn-globe-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      max-width: 550px;
+      height: 520px;
+      touch-action: none;
+    }
+
+    /* Instant Fallback Image */
+    .rn-earth-fallback {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 1;
+      transition: opacity 0.6s ease;
+    }
+
+    .rn-globe-container.rn-globe-ready .rn-earth-fallback {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    /* 3D Canvas */
+    #rn-earth-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+      cursor: grab;
+      outline: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .rn-globe-container.rn-globe-ready #rn-earth-canvas {
+      opacity: 1;
+    }
+
+    #rn-earth-canvas:active {
+      cursor: grabbing;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .rn-wrapper {
+        min-height: auto;
+        padding: 3rem 1.5rem;
+      }
+
+      .rn-container {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 2rem;
+      }
+
+      .rn-text-content {
+        align-items: center;
+        max-width: 100%;
+      }
+
+      h1.rn-title {
+        font-size: clamp(2.4rem, 7.5vw, 3.5rem);
+        margin-bottom: 1.2rem;
+      }
+
+      h3.rn-tagline {
+        max-width: 100%;
+      }
+
+      .rn-globe-container {
+        height: 380px;
+        max-width: 380px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .rn-wrapper {
+        padding: 2.2rem 1.2rem;
+      }
+
+      .rn-globe-container {
+        height: 290px;
+        max-width: 290px;
+      }
+
+      h1.rn-title {
+        font-size: 2.3rem;
+      }
+
+      .rn-pill-badge {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.85rem;
+        margin-bottom: 1.1rem;
+      }
+
+      h3.rn-tagline {
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+
+  <div class="rn-wrapper">
+    <div class="rn-container">
+      
+      <!-- Text Section -->
+      <div class="rn-text-content">
+        <div class="rn-pill-badge">
+          Doctor-Founded&nbsp;&nbsp;Women-Led
+        </div>
+        
+        <h1 class="rn-title">
+          RNisarg<br>Foundation
+        </h1>
+        
+        <h3 class="rn-tagline">
+          <span class="rn-highlight">Healing Planet and People</span> Since 2016 · Celebrating a decade of climate action through a healthcare lens
+        </h3>
+      </div>
+
+      <!-- 3D Earth Globe with Instant Fallback Image -->
+      <div class="rn-globe-container" id="rn-globe-box">
+        <img 
+          src="assets/earth.png" 
+          alt="RNisarg Planet Earth" 
+          class="rn-earth-fallback" 
+          id="rn-earth-fallback"
+          fetchpriority="high"
+          loading="eager"
+        >
+        <canvas id="rn-earth-canvas"></canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const globeBox = document.getElementById('rn-globe-box');
+      const canvas = document.getElementById('rn-earth-canvas');
+      if (!globeBox || !canvas) return;
+
+      // Finalized configuration values
+      const CONFIG = {
+        scale: 1.15,
+        initialRotationY: 1.46,
+        tiltX: 0.22,
+        cameraDistance: 2.85,
+        positionOffsetY: 0,
+        spinSpeed: 0.0022,
+        ambientLight: 0.7,
+        sunLight: 0.9,
+        autoSpin: true
+      };
+
+      function init3DScene() {
+        if (typeof THREE === 'undefined' || typeof THREE.GLTFLoader === 'undefined') {
+          setTimeout(init3DScene, 100);
+          return;
+        }
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(38, globeBox.clientWidth / globeBox.clientHeight, 0.1, 1000);
+        camera.position.z = CONFIG.cameraDistance;
+
+        const renderer = new THREE.WebGLRenderer({
+          canvas: canvas,
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance"
+        });
+        renderer.setSize(globeBox.clientWidth, globeBox.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.15;
+
+        const globeGroup = new THREE.Group();
+        globeGroup.rotation.y = CONFIG.initialRotationY;
+        globeGroup.rotation.x = CONFIG.tiltX;
+        globeGroup.position.y = CONFIG.positionOffsetY;
+        scene.add(globeGroup);
+
+        // Lighting (Clean, no unnecessary glow)
+        const ambientLight = new THREE.AmbientLight(0xffffff, CONFIG.ambientLight);
+        scene.add(ambientLight);
+
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x0D386C, 0.5);
+        scene.add(hemiLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, CONFIG.sunLight);
+        sunLight.position.set(-3.5, 2.8, 3.5);
+        scene.add(sunLight);
+
+        let modelObj = null;
+        const loader = new THREE.GLTFLoader();
+
+        function handleModelLoad(gltf) {
+          modelObj = gltf.scene;
+
+          const box = new THREE.Box3().setFromObject(modelObj);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          modelObj.position.sub(center);
+
+          const maxDim = Math.max(size.x, size.y, size.z);
+          if (maxDim > 0) {
+            const s = (CONFIG.scale / maxDim);
+            modelObj.scale.set(s, s, s);
+          }
+
+          globeGroup.add(modelObj);
+
+          requestAnimationFrame(() => {
+            renderer.render(scene, camera);
+            globeBox.classList.add('rn-globe-ready');
+          });
+        }
+
+        if (window.EARTH_GLB_BASE64) {
+          loader.load(
+            window.EARTH_GLB_BASE64,
+            handleModelLoad,
+            undefined,
+            function(err) {
+              loader.load('assets/3d-element/earth (1).glb', handleModelLoad);
+            }
+          );
+        } else {
+          loader.load(
+            'assets/3d-element/earth (1).glb',
+            handleModelLoad,
+            undefined,
+            function(err) {
+              console.error('Error loading GLB:', err);
+            }
+          );
+        }
+
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let velocityX = 0;
+        let velocityY = 0;
+
+        function onStart(e) {
+          isDragging = true;
+          const x = e.clientX || (e.touches && e.touches[0].clientX);
+          const y = e.clientY || (e.touches && e.touches[0].clientY);
+          previousMousePosition = { x, y };
+        }
+
+        function onMove(e) {
+          if (!isDragging) return;
+          const x = e.clientX || (e.touches && e.touches[0].clientX);
+          const y = e.clientY || (e.touches && e.touches[0].clientY);
+
+          const deltaX = x - previousMousePosition.x;
+          const deltaY = y - previousMousePosition.y;
+
+          velocityY = deltaX * 0.005;
+          velocityX = deltaY * 0.005;
+
+          globeGroup.rotation.y += velocityY;
+          globeGroup.rotation.x = Math.max(-0.8, Math.min(0.8, globeGroup.rotation.x + velocityX));
+
+          previousMousePosition = { x, y };
+        }
+
+        function onEnd() {
+          isDragging = false;
+        }
+
+        canvas.addEventListener('mousedown', onStart);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onEnd);
+
+        canvas.addEventListener('touchstart', onStart, { passive: true });
+        window.addEventListener('touchmove', onMove, { passive: true });
+        window.addEventListener('touchend', onEnd);
+
+        function handleResize() {
+          if (!globeBox) return;
+          const width = globeBox.clientWidth;
+          const height = globeBox.clientHeight;
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+          renderer.setSize(width, height);
+        }
+
+        window.addEventListener('resize', handleResize);
+        if (window.ResizeObserver) {
+          new ResizeObserver(handleResize).observe(globeBox);
+        }
+
+        function animate() {
+          requestAnimationFrame(animate);
+
+          if (!isDragging && CONFIG.autoSpin) {
+            globeGroup.rotation.y += CONFIG.spinSpeed;
+            velocityX *= 0.94;
+            velocityY *= 0.94;
+            globeGroup.rotation.x = Math.max(-0.8, Math.min(0.8, globeGroup.rotation.x + velocityX));
+            globeGroup.rotation.y += velocityY;
+          }
+
+          renderer.render(scene, camera);
+        }
+
+        animate();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init3DScene);
+      } else {
+        init3DScene();
+      }
+    })();
+  </script>
+</div>
