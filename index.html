@@ -39,13 +39,13 @@
       overflow-x: hidden;
       margin: 0;
       padding: 0;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Full wrapper for Wix Embed: adapts cleanly to 100vh or Wix container height */
+    /* Outer Wrapper: Fits Wix container cleanly */
     .wix-embed-wrapper {
       width: 100%;
       min-height: 100vh;
-      min-height: -webkit-fill-available;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -54,21 +54,21 @@
       position: relative;
     }
 
-    /* Grid container maintaining proportion on ultra-wide & small screens */
+    /* Container Grid */
     .hero-container {
       width: 100%;
-      max-width: 1280px;
+      max-width: 1240px;
       display: grid;
       grid-template-columns: minmax(320px, 1.15fr) minmax(280px, 0.95fr);
       align-items: center;
       justify-content: space-between;
-      gap: clamp(1.5rem, 4vw, 4rem);
+      gap: clamp(1.5rem, 4vw, 3.5rem);
     }
 
     /* Left Text Content */
     .text-content {
       width: 100%;
-      max-width: 580px;
+      max-width: 560px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -81,12 +81,12 @@
       align-items: center;
       background-color: var(--pill-bg);
       color: #ffffff;
-      font-size: clamp(0.7rem, 0.9vw, 0.78rem);
+      font-size: clamp(0.72rem, 1vw, 0.8rem);
       font-weight: 500;
-      padding: 0.4rem 1.05rem;
+      padding: 0.38rem 1.05rem;
       border-radius: 999px;
       letter-spacing: 0.02em;
-      margin-bottom: clamp(1.2rem, 2.5vw, 1.7rem);
+      margin-bottom: clamp(1rem, 2.2vw, 1.6rem);
       white-space: nowrap;
     }
 
@@ -95,10 +95,10 @@
       font-family: 'Sora', sans-serif;
       font-size: clamp(2.4rem, 5.2vw, 4.8rem);
       font-weight: 700;
-      line-height: 1.06;
+      line-height: 1.05;
       letter-spacing: -0.025em;
       color: #ffffff;
-      margin-bottom: clamp(1.2rem, 2.5vw, 1.7rem);
+      margin-bottom: clamp(1rem, 2.2vw, 1.6rem);
       word-break: break-word;
     }
 
@@ -107,9 +107,9 @@
       font-family: 'Sora', sans-serif;
       font-size: clamp(0.92rem, 1.25vw, 1.1rem);
       font-weight: 400;
-      line-height: 1.52;
+      line-height: 1.5;
       color: var(--text-sub);
-      max-width: 500px;
+      max-width: 480px;
     }
 
     h3.hero-tagline .highlight {
@@ -117,18 +117,17 @@
       font-weight: 600;
     }
 
-    /* Right 3D Earth / Fallback Container: dynamic aspect-ratio box */
+    /* Right 3D Earth Container: Responsive aspect-ratio square */
     .globe-container {
       width: 100%;
-      max-width: min(560px, 45vw);
+      max-width: min(540px, 45vw);
       aspect-ratio: 1 / 1;
-      min-height: 280px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       margin: 0 auto;
-      touch-action: pan-y; /* Allows vertical mobile page scrolling without getting trapped */
+      touch-action: pan-y; /* Non-blocking mobile page scrolling */
     }
 
     /* Instant Fallback Image */
@@ -137,8 +136,8 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 90%;
-      height: 90%;
+      width: 88%;
+      height: 88%;
       object-fit: contain;
       pointer-events: none;
       z-index: 1;
@@ -176,50 +175,40 @@
     }
 
     /* ========================================================
-       RESPONSIVE BREAKPOINTS (BIG & SMALL SCREENS)
+       RESPONSIVE BREAKPOINTS (DESKTOP, TABLET & MOBILE)
        ======================================================== */
-    /* Ultra-wide screens (1600px+) */
+    /* Big Screens (1600px+) */
     @media (min-width: 1600px) {
       .hero-container {
-        max-width: 1400px;
+        max-width: 1360px;
       }
       .globe-container {
-        max-width: 620px;
+        max-width: 600px;
       }
     }
 
-    /* Mid-size / Laptops / Tablets Landscape (961px - 1180px) */
-    @media (max-width: 1180px) {
+    /* Tablets / Small Laptops (769px - 1024px) */
+    @media (max-width: 1024px) and (min-width: 769px) {
       .hero-container {
+        grid-template-columns: 1.1fr 0.9fr;
         gap: 2rem;
       }
       .globe-container {
-        max-width: min(480px, 42vw);
+        max-width: min(420px, 42vw);
       }
     }
 
-    /* Tablets / Small Laptops (769px - 960px) */
-    @media (max-width: 960px) {
-      .hero-container {
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 1.8rem;
-      }
-      .globe-container {
-        max-width: min(420px, 45vw);
-      }
-    }
-
-    /* Mobile / Tablets Portrait (<= 768px): clean stack */
+    /* Mobile Devices (<= 768px): Clean, compact stacked layout */
     @media (max-width: 768px) {
       .wix-embed-wrapper {
         min-height: auto;
-        padding: 3rem 1.5rem 2.5rem;
+        padding: 2.2rem 1.25rem 2.2rem;
       }
 
       .hero-container {
         grid-template-columns: 1fr;
         text-align: center;
-        gap: 2rem;
+        gap: 1.75rem;
       }
 
       .text-content {
@@ -228,47 +217,57 @@
         margin: 0 auto;
       }
 
+      .pill-badge {
+        font-size: 0.72rem;
+        padding: 0.35rem 0.9rem;
+        margin-bottom: 0.9rem;
+      }
+
       h1.hero-title {
-        font-size: clamp(2.3rem, 8vw, 3.4rem);
-        margin-bottom: 1.1rem;
+        font-size: clamp(2.3rem, 8vw, 3.2rem);
+        margin-bottom: 0.9rem;
       }
 
       h3.hero-tagline {
-        max-width: 90%;
+        font-size: clamp(0.9rem, 3.6vw, 1.02rem);
+        max-width: 92%;
         margin: 0 auto;
       }
 
       .globe-container {
-        max-width: min(360px, 78vw);
-        min-height: 260px;
-        order: 1;
+        max-width: min(300px, 74vw);
+        aspect-ratio: 1 / 1;
+        margin: 0 auto;
       }
     }
 
-    /* Small Mobile Phones (<= 420px) */
-    @media (max-width: 420px) {
+    /* Small Mobile Phones (<= 400px) */
+    @media (max-width: 400px) {
       .wix-embed-wrapper {
-        padding: 2.2rem 1rem 2rem;
+        padding: 1.75rem 1rem 1.75rem;
+      }
+
+      .hero-container {
+        gap: 1.35rem;
       }
 
       h1.hero-title {
-        font-size: clamp(2.1rem, 9.5vw, 2.6rem);
+        font-size: clamp(2.1rem, 9.5vw, 2.5rem);
       }
 
       .pill-badge {
         font-size: 0.68rem;
-        padding: 0.35rem 0.85rem;
-        margin-bottom: 1rem;
+        padding: 0.3rem 0.8rem;
+        margin-bottom: 0.8rem;
       }
 
       h3.hero-tagline {
-        font-size: 0.88rem;
+        font-size: 0.86rem;
         max-width: 100%;
       }
 
       .globe-container {
-        max-width: min(290px, 84vw);
-        min-height: 240px;
+        max-width: min(250px, 78vw);
       }
     }
   </style>
@@ -315,7 +314,7 @@
       const canvas = document.getElementById('earth-canvas');
       if (!globeBox || !canvas) return;
 
-      // Finalized configuration values
+      // Your chosen finalized configuration
       const CONFIG = {
         scale: 1.15,
         initialRotationY: 1.46,
@@ -356,7 +355,7 @@
         globeGroup.position.y = CONFIG.positionOffsetY;
         scene.add(globeGroup);
 
-        // Clean Natural Lighting
+        // Clean Natural Lighting (No unnecessary glow)
         const ambientLight = new THREE.AmbientLight(0xffffff, CONFIG.ambientLight);
         scene.add(ambientLight);
 
@@ -386,7 +385,6 @@
 
           globeGroup.add(modelObj);
 
-          // Force responsive bounds check
           handleResize();
 
           requestAnimationFrame(() => {
@@ -416,7 +414,7 @@
         }
 
         // ========================================================
-        // RESPONSIVE DRAG & MOBILE TOUCH (NON-BLOCKING SCROLL)
+        // MOBILE-FRIENDLY TOUCH GESTURES (ZERO SCROLL TRAPPING)
         // ========================================================
         let isDragging = false;
         let isHorizontalSwipe = false;
@@ -426,7 +424,7 @@
         let velocityX = 0;
         let velocityY = 0;
 
-        // Desktop Mouse Controls
+        // Desktop Mouse Drag
         canvas.addEventListener('mousedown', function(e) {
           isDragging = true;
           previousPosition = { x: e.clientX, y: e.clientY };
@@ -450,7 +448,7 @@
           isDragging = false;
         });
 
-        // Mobile Touch Gestures (Allows natural page scrolling up/down)
+        // Mobile Touch Gestures
         canvas.addEventListener('touchstart', function(e) {
           if (e.touches.length !== 1) return;
           isDragging = true;
@@ -467,12 +465,11 @@
           const diffX = currentX - startX;
           const diffY = currentY - startY;
 
-          // Check if swipe is primarily horizontal (globe rotation) or vertical (page scroll)
+          // Detect swipe direction: horizontal rotates globe, vertical scrolls page
           if (!isHorizontalSwipe) {
             if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 6) {
               isHorizontalSwipe = true;
             } else if (Math.abs(diffY) > 8) {
-              // User wants to scroll the page vertically
               isDragging = false;
               return;
             }
@@ -499,7 +496,7 @@
         });
 
         // ========================================================
-        // RESPONSIVE RESIZE OBSERVER (SCREEN & IFRAME ADAPTATION)
+        // RESPONSIVE RESIZE OBSERVER (SMOOTH ADAPTATION)
         // ========================================================
         function handleResize() {
           if (!globeBox || !renderer || !camera) return;
@@ -509,10 +506,9 @@
 
           camera.aspect = width / height;
 
-          // Proportional camera distance adjustment for small screens
           const screenW = window.innerWidth;
-          if (screenW <= 480) {
-            camera.position.z = CONFIG.cameraDistance * 1.06;
+          if (screenW <= 400) {
+            camera.position.z = CONFIG.cameraDistance * 1.05;
           } else if (screenW <= 768) {
             camera.position.z = CONFIG.cameraDistance * 1.02;
           } else {
