@@ -29,17 +29,21 @@
 
     html,
     body {
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      /* transparent so Wix bg shows through */
+      width: 100vw;
+      height: 100vh;
+      min-width: 100vw;
+      min-height: 100vh;
+      background: transparent;  /* transparent so Wix bg shows through */
       overflow: hidden;
     }
 
-    /* ── Outer shell: fills entire iframe, 10% padding on all sides ── */
+    /* ── Outer shell: fills entire iframe viewport, 10% padding on all sides ── */
     #globe-shell {
-      width: 100%;
-      height: 100%;
+      /* Use vw/vh so it always fills the iframe regardless of parent height chain */
+      width: 100vw;
+      height: 100vh;
+      min-width: 100vw;
+      min-height: 100vh;
       padding: 10%;
       display: flex;
       align-items: center;
@@ -48,8 +52,12 @@
 
     /* ── Globe box: takes ALL remaining space after padding ── */
     #rn-globe-box {
+      /* flex-grow fills whatever space padding left behind */
+      flex: 1 1 auto;
       width: 100%;
       height: 100%;
+      min-width: 0;   /* prevent flex blowout */
+      min-height: 0;
       position: relative;
       touch-action: pan-y;
     }
